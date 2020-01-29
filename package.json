@@ -77,17 +77,14 @@
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
       "yarn lint:ts:cmd --fix",
-      "yarn prettier --write",
-      "git add"
+      "yarn prettier --write"
     ],
     "src/**/*.{js,jsx}": [
       "yarn eslint --fix",
-      "yarn prettier --write",
-      "git add"
+      "yarn prettier --write"
     ],
     "src/**/*.{json,css}": [
-      "yarn prettier --write",
-      "git add"
+      "yarn prettier --write"
     ]
   }
 }
