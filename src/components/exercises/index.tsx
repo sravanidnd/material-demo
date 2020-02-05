@@ -13,27 +13,39 @@ import { uniq } from 'lodash'
 const Styles = { Paper: { padding: 20, marginTop: 10, marginBottom: 10 } }
 
 export const ExercisesList: React.FC<Exercises> = ({ exercises }) => {
+  const allMuscles = uniq(exercises.map(exercise => exercise.muscles))
+  const getTitles = (arr: string[]) => {
+    const result: any = {}
+    for (const muscle of arr) {
+      result[muscle] = exercises
+        .filter(exercise => muscle === exercise.muscles)
+        .map(exercise => exercise.title)
+    }
+    return result
+  }
+  const titles: any = getTitles(allMuscles)
   return (
     <Grid container>
       <Grid item sm>
         <Paper>
-          {exercises.map(exercise => {
-            const { title } = exercise
+          {allMuscles.map(muscle => {
+            console.log(muscle, titles[muscle])
             return (
               <>
                 <Typography
-                  key={exercise.id}
                   variant="h6"
                   style={{ textTransform: 'capitalize' }}
                 >
-                  {exercise.muscles}
+                  {muscle}
                 </Typography>
 
-                {/* <List component="ul">
-                  <ListItem button>
-                    <ListItemText primary={title} />
-                  </ListItem>
-                </List> */}
+                <List component="ul">
+                  {titles[muscle].map((title: string) => (
+                    <ListItem button>
+                      <ListItemText primary={title} />
+                    </ListItem>
+                  ))}
+                </List>
               </>
             )
           })}
@@ -47,12 +59,12 @@ export const ExercisesList: React.FC<Exercises> = ({ exercises }) => {
   )
 }
 
-const allMuscles = uniq(exercises.map(e => e.muscles))
+// const allMuscles = uniq(exercises.map(e => e.muscles))
 
-const result: any = {}
+// const result: any = {}
 
-for (const muscle of allMuscles) {
-  result[muscle] = exercises.filter(e => e.muscles === muscle).map(e => e.title)
-}
+// for (const muscle of allMuscles) {
+//   result[muscle] = exercises.filter(e => e.muscles === muscle).map(e => e.title)
+// }
 
-console.log(result)
+// console.log(result)
