@@ -7,12 +7,16 @@ import {
   ListItemText,
 } from '@material-ui/core'
 import * as React from 'react'
-import { Exercises, exercises } from '../store'
+import { exercises, Exercise } from '../store'
 import { uniq } from 'lodash'
 
 const Styles = { Paper: { padding: 20, marginTop: 10, marginBottom: 10 } }
 
-export const ExercisesList: React.FC<Exercises> = ({ exercises }) => {
+interface ExercisesListProps {
+  readonly exercises: readonly Exercise[]
+}
+
+export const ExercisesList: React.FC<ExercisesListProps> = ({ exercises }) => {
   const allMuscles = uniq(exercises.map(exercise => exercise.muscles))
   const getTitles = (arr: string[]) => {
     const result: any = {}
@@ -53,18 +57,87 @@ export const ExercisesList: React.FC<Exercises> = ({ exercises }) => {
       </Grid>
 
       <Grid item sm>
-        <Paper style={Styles.Paper}>Right Pane</Paper>
+        <Paper style={Styles.Paper}>
+          <Typography variant="h3">Welcome!</Typography>
+          <Typography variant="subtitle1">
+            Please select an exercise from the list on the left
+          </Typography>
+        </Paper>
       </Grid>
     </Grid>
   )
 }
 
-// const allMuscles = uniq(exercises.map(e => e.muscles))
+interface TitlesByMuscles {
+  readonly muscles: string
+  readonly titles: readonly string[]
+}
 
-// const result: any = {}
+const getTitles = (exercises: readonly Exercise[], muscles: string) =>
+  exercises.filter(ex => ex.muscles === muscles).map(ex => ex.title)
 
-// for (const muscle of allMuscles) {
-//   result[muscle] = exercises.filter(e => e.muscles === muscle).map(e => e.title)
+const getTitlesByMuscles = (exercises: readonly Exercise[]) => {
+  const result = []
+  for (const ex of exercises) {
+    result.push(
+      exercises.map(({ muscles }) => ({
+        muscles,
+        titles: getTitles(exercises, muscles),
+      })),
+    )
+  }
+  return result
+}
+// console.log(titlesByMuscles.length)
+// console.log(exercises.length)
+
+export interface TitlesListProps {
+  readonly titles: readonly string[]
+}
+
+export const TitlesList: React.FC<TitlesListProps> = ({ titles }) => {
+  return (
+    <List component="ul">
+      {titles.map(title => (
+        <ListItem button>
+          <ListItemText primary={title} />
+        </ListItem>
+      ))}
+    </List>
+  )
+}
+
+// export const ExercisesList2: React.FC<ExercisesListProps> = ({ exercises }) => {
+//   const titlesByMuscles = getTitlesByMuscles(exercises)
+//   return (
+//     <Grid container>
+//       <Grid item sm>
+//         <Paper>
+//           {titlesByMuscles.map(({ muscles, titles }) => {
+//             return (
+//               <>
+//                 <Typography
+//                   variant="h6"
+//                   style={{ textTransform: 'capitalize' }}
+//                 >
+//                   {muscles}
+//                 </Typography>
+
+//                 <TitlesList titles={titles} />
+//               </>
+//             )
+//           })}
+//         </Paper>
+//       </Grid>
+
+//       <Grid item sm>
+//         <Paper style={Styles.Paper}>
+//           <Typography variant="h3">Welcome!</Typography>
+//           <Typography variant="subtitle1">
+//             Please select an exercise from the list on the left
+//           </Typography>
+//         </Paper>
+//       </Grid>
+//     </Grid>
+//   )
 // }
-
-// console.log(result)
