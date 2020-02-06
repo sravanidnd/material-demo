@@ -7,11 +7,7 @@ export interface Exercise {
   readonly muscles: string
 }
 
-export interface Exercises {
-  readonly exercises: readonly Exercise[]
-}
-
-export const exercises = [
+export const exercises: readonly Exercise[] = [
   {
     id: 'overhead-press',
     title: 'Overhead Press',
@@ -55,3 +51,17 @@ export const exercises = [
     muscles: 'legs',
   },
 ]
+
+// const getTitlesByMuscles = (
+//   exercises: readonly Exercise[],
+// ): readonly TitlesByMuscles[] => {
+//   const result = []
+//   for (const exercise of exercises) {
+//     const { muscles } = exercise
+//     const titles = exercises
+//       .filter(ex => ex.muscles === muscles)
+//       .map(ex => ex.title)
+//     result.push({ muscles, titles })
+//   }
+//   return result
+// }
