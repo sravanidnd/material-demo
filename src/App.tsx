@@ -1,11 +1,10 @@
 import React from 'react'
-
-import { Hello } from './Hello'
-import { Header, Footer } from './components/layout'
 import { ExercisesList } from './components/exercises'
+import { Footer, Header } from './components/layout'
 import { exercises, muscles } from './components/store'
 
 export const App = () => {
+  const [category, setCategory] = React.useState(0)
   // const [exerciseList, setExercises] = React.useState(exercises)
 
   // const getExercisesByMuscles = () => {
@@ -22,11 +21,23 @@ export const App = () => {
   //   )
   // }
 
+  const handleTabChange = (category: number) => {
+    setCategory(category)
+  }
+
   return (
     <>
       <Header />
-      <ExercisesList exercises={exercises} />
-      <Footer muscles={muscles} />
+      <ExercisesList
+        exercises={exercises}
+        muscles={muscles}
+        categoryIndex={category}
+      />
+      <Footer
+        muscles={muscles}
+        value={category}
+        onTabChange={handleTabChange}
+      />
     </>
   )
 }
