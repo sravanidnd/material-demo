@@ -1,56 +1,79 @@
-export const muscles = ['shoulders', 'chest', 'arms', 'back', 'legs']
+import { uniq, groupBy, merge, mergeWith } from 'lodash'
+
+type Muscles = 'shoulders' | 'arms' | 'legs' | 'back' | 'chest'
 
 export interface Exercise {
-  readonly id: string
+  // readonly id: string
   readonly title: string
   readonly description: string
-  readonly muscles: string
+  readonly muscles: Muscles
 }
 
-export const exercises: readonly Exercise[] = [
+export const initialExercises: readonly Exercise[] = [
   {
-    id: 'overhead-press',
+    // id: 'overhead-press',
     title: 'Overhead Press',
     description: 'Delts exercise...',
     muscles: 'shoulders',
   },
   {
-    id: 'dips',
+    // id: 'dips',
     title: 'Dips',
     description: 'Triceps exercise...',
     muscles: 'arms',
   },
   {
-    id: 'barbell-curls',
+    // id: 'barbell-curls',
     title: 'Barbell Curls',
     description: 'Biceps exercise...',
     muscles: 'arms',
   },
   {
-    id: 'bench-press',
+    // id: 'bench-press',
     title: 'Bench Press',
     description: 'Chest exercise...',
     muscles: 'chest',
   },
   {
-    id: 'pull-ups',
+    // id: 'pull-ups',
     title: 'Pull Ups',
     description: 'Back and biceps exercise...',
     muscles: 'back',
   },
   {
-    id: 'deadlifts',
+    // id: 'deadlifts',
     title: 'Deadlifts',
     description: 'Back and leg exercise...',
     muscles: 'back',
   },
   {
-    id: 'squats',
+    // id: 'squats',
     title: 'Squats',
     description: 'Legs exercise...',
     muscles: 'legs',
   },
 ]
+
+export const muscles: readonly Muscles[] = [
+  'shoulders',
+  'arms',
+  'legs',
+  'back',
+  'chest',
+]
+
+// export const exercisesGroupedByMuscle2 = (exercises: readonly Exercise[]) => {
+//   const arr = exercises.map(ex => ({ [ex.muscles]: [ex.title] }))
+
+//   const combine = (titles: string[], titles2: string[]) =>
+//     (titles || []).concat(titles2)
+
+//   return mergeWith({}, ...arr, combine)
+// }
+
+export const exercisesGroupedByMuscle = (exercises: readonly Exercise[]) => {
+  return groupBy(exercises, 'muscles')
+}
 
 // const getTitlesByMuscles = (
 //   exercises: readonly Exercise[],
